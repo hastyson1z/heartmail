@@ -300,12 +300,13 @@ function showYesPopup() {
     justify-content: center;
     background: linear-gradient(135deg, #000000 0%, #1a0a0a 100%);
     text-align: center;
+    z-index: 9999;
   `;
 
+  // REMOVED the extra </div> that was breaking the layout
   popup.innerHTML = `
     <div style="font-size:48px;color:#ff1744;margin-bottom:20px;animation:pulseText 1.5s infinite;">
-  ${herName} said YESSSS!! ❤️
-</div>
+      ${herName} said YESSSS!! ❤️
     </div>
     <div id="gifContainer" style="width:340px;max-width:90%;height:340px;display:flex;align-items:center;justify-content:center;margin:20px 0;">
       <div style="font-size:100px;animation:pulseHeart 0.8s infinite;">💕</div>
@@ -322,27 +323,31 @@ function showYesPopup() {
   img.onload = function () {
     console.log("✓ GIF loaded successfully!");
     const container = document.getElementById("gifContainer");
-    container.innerHTML = "";
-    img.style.cssText = `
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255,105,180,0.6);
-    `;
-    container.appendChild(img);
+    
+    // ADDED: Null check to prevent the "Cannot set properties of null" error
+    if (container) {
+      container.innerHTML = "";
+      img.style.cssText = `
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 0 40px rgba(255,105,180,0.6);
+      `;
+      container.appendChild(img);
+    } else {
+      console.error("✗ Could not find gifContainer in the DOM");
+    }
   };
 
   img.onerror = function () {
-    console.error("✗ GIF failed to load");
-    console.log("Looking for: yes.gif");
-    console.log("In folder:", window.location.href);
-    console.log("Showing animated hearts instead...");
-    // Hearts already showing as fallback
+    console.error("✗ GIF failed to load at path:", img.src);
+    console.log("Check if the file name matches exactly in GitHub!");
   };
 
-  img.src = encodeURI("Happy Premier League GIF by Play Sports.gif");
-
+  // Using the exact name you have on GitHub
+  img.src = "Happy Premier League GIF by Play Sports.gif";
+}
   // Add pulse animation for hearts
   const heartStyle = document.createElement("style");
   heartStyle.innerHTML = `
@@ -1044,6 +1049,7 @@ window.currentShareLink = finalLink;
 document.addEventListener("click", startMusicWithFade, { once: true });
 document.addEventListener("touchstart", startMusicWithFade, { once: true });
 document.addEventListener("scroll", startMusicWithFade, { once: true });
+
 
 
 
