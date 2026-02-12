@@ -905,12 +905,13 @@ window.currentShareLink = finalLink;
       linkSection.style.display = "block";
       generateButton.innerHTML = "<span>✅</span> Link Ready!";
       generateButton.disabled = false;
-    } catch (error) {
+   } catch (error) {
       console.error("Upload Error:", error);
       alert("Something went wrong with the upload. Please try again!");
       generateButton.disabled = false;
       generateButton.innerHTML = "Generate Link";
-    }
+    } 
+}
     if (copyButton) {
       copyButton.addEventListener("click", () => {
         const textToCopy = generatedLink.value;
@@ -1049,6 +1050,7 @@ window.currentShareLink = finalLink;
 document.addEventListener("click", startMusicWithFade, { once: true });
 document.addEventListener("touchstart", startMusicWithFade, { once: true });
 document.addEventListener("scroll", startMusicWithFade, { once: true });
+
 
 
 
