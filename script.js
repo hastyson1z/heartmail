@@ -93,7 +93,7 @@ function startMusicWithFade() {
 
   if (!musicElement) {
     musicElement = document.createElement("audio");
-    musicElement.src = "music.mp3/Photograph.mp3";
+    musicElement.src = "Photograph.mp3";
     musicElement.id = "music";
     document.body.appendChild(musicElement);
   }
@@ -300,13 +300,12 @@ function showYesPopup() {
     justify-content: center;
     background: linear-gradient(135deg, #000000 0%, #1a0a0a 100%);
     text-align: center;
-    z-index: 9999;
   `;
 
-  // REMOVED the extra </div> that was breaking the layout
   popup.innerHTML = `
     <div style="font-size:48px;color:#ff1744;margin-bottom:20px;animation:pulseText 1.5s infinite;">
-      ${herName} said YESSSS!! ❤️
+  ${herName} said YESSSS!! ❤️
+</div>
     </div>
     <div id="gifContainer" style="width:340px;max-width:90%;height:340px;display:flex;align-items:center;justify-content:center;margin:20px 0;">
       <div style="font-size:100px;animation:pulseHeart 0.8s infinite;">💕</div>
@@ -323,29 +322,25 @@ function showYesPopup() {
   img.onload = function () {
     console.log("✓ GIF loaded successfully!");
     const container = document.getElementById("gifContainer");
-    
-    // ADDED: Null check to prevent the "Cannot set properties of null" error
-    if (container) {
-      container.innerHTML = "";
-      img.style.cssText = `
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 20px;
-        box-shadow: 0 0 40px rgba(255,105,180,0.6);
-      `;
-      container.appendChild(img);
-    } else {
-      console.error("✗ Could not find gifContainer in the DOM");
-    }
+    container.innerHTML = "";
+    img.style.cssText = `
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255,105,180,0.6);
+    `;
+    container.appendChild(img);
   };
 
   img.onerror = function () {
-    console.error("✗ GIF failed to load at path:", img.src);
-    console.log("Check if the file name matches exactly in GitHub!");
+    console.error("✗ GIF failed to load");
+    console.log("Looking for: yes.gif");
+    console.log("In folder:", window.location.href);
+    console.log("Showing animated hearts instead...");
+    // Hearts already showing as fallback
   };
 
-  // Using the exact name you have on GitHub
   img.src = "Happy Premier League GIF by Play Sports.gif";
 
   // Add pulse animation for hearts
@@ -896,22 +891,21 @@ document.head.appendChild(style);
 
       // 4. Create the final Vercel-ready link
       const baseUrl = window.location.origin + "/valentine.html";
-const finalLink = `${baseUrl}?data=${base64Data}`;
+      const finalLink = `${baseUrl}?data=${base64Data}`;
 
-// Save to the global window object so Share/Copy buttons can see it
-window.currentShareLink = finalLink;
+      // Save to the global window object so Share/Copy buttons can see it
+      window.currentShareLink = finalLink;
 
       generatedLink.value = finalLink;
       linkSection.style.display = "block";
       generateButton.innerHTML = "<span>✅</span> Link Ready!";
       generateButton.disabled = false;
-   } catch (error) {
+    } catch (error) {
       console.error("Upload Error:", error);
       alert("Something went wrong with the upload. Please try again!");
       generateButton.disabled = false;
       generateButton.innerHTML = "Generate Link";
-                    } 
-}
+    }
     if (copyButton) {
       copyButton.addEventListener("click", () => {
         const textToCopy = generatedLink.value;
@@ -1050,9 +1044,3 @@ window.currentShareLink = finalLink;
 document.addEventListener("click", startMusicWithFade, { once: true });
 document.addEventListener("touchstart", startMusicWithFade, { once: true });
 document.addEventListener("scroll", startMusicWithFade, { once: true });
-
-
-
-
-
-
