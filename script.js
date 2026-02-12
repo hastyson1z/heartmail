@@ -169,12 +169,11 @@ function typeWriter(element, text, speed = 35, callback = null) {
 
 if (envelope) {
   envelope.addEventListener("click", () => {
-    // 1. Start music immediately on click
-    startMusicWithFade();
+    // START MUSIC HERE (Only when the envelope is clicked)
+    startMusicWithFade(); 
 
     envelope.classList.add("open");
 
-    // Wait for flap to open
     setTimeout(() => {
       if (container) {
         container.classList.add("letter-out");
@@ -1039,11 +1038,8 @@ document.head.appendChild(style);
       e.returnValue = "";
     }
   });
-// This catches the very first touch/click anywhere to start the music
-document.addEventListener("click", startMusicWithFade, { once: true });
-document.addEventListener("touchstart", startMusicWithFade, { once: true });
-document.addEventListener("scroll", startMusicWithFade, { once: true });
 
   console.log("💕 Valentine Setup Page Loaded Successfully!");
 })();
+
 
