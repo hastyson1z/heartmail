@@ -890,13 +890,11 @@ document.head.appendChild(style);
       const base64Data = btoa(unescape(encodeURIComponent(jsonString)));
 
       // 4. Create the final Vercel-ready link
-      const baseUrl =
-        window.location.origin +
-        window.location.pathname.replace("setup", "index");
-      const finalLink = `${baseUrl}?data=${base64Data}`;
+      const baseUrl = window.location.origin + "/valentine.html";
+const finalLink = `${baseUrl}?data=${base64Data}`;
 
-      // FIX: Save to the global window object so Share/Copy buttons can see it
-      window.currentShareLink = finalLink;
+// Save to the global window object so Share/Copy buttons can see it
+window.currentShareLink = finalLink;
 
       generatedLink.value = finalLink;
       linkSection.style.display = "block";
@@ -1046,3 +1044,4 @@ document.head.appendChild(style);
 document.addEventListener("click", startMusicWithFade, { once: true });
 document.addEventListener("touchstart", startMusicWithFade, { once: true });
 document.addEventListener("scroll", startMusicWithFade, { once: true });
+
