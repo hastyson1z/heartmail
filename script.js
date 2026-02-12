@@ -128,10 +128,12 @@ function preserveMusic() {
     document.body.appendChild(musicElement);
   }
 }
-
-// start on first interaction
-document.addEventListener("click", startMusicWithFade, { once: true });
-document.addEventListener("touchstart", startMusicWithFade, { once: true });
+// Change the interaction listeners to this:
+if (document.getElementById("envelope")) {
+    // Only listen for clicks to start music if the envelope is present
+    document.addEventListener("click", startMusicWithFade, { once: true });
+    document.addEventListener("touchstart", startMusicWithFade, { once: true });
+}
 
 // ===============================
 // TYPEWRITER
@@ -1037,10 +1039,11 @@ document.head.appendChild(style);
       e.returnValue = "";
     }
   });
-
-  console.log("💕 Valentine Setup Page Loaded Successfully!");
-})();
 // This catches the very first touch/click anywhere to start the music
 document.addEventListener("click", startMusicWithFade, { once: true });
 document.addEventListener("touchstart", startMusicWithFade, { once: true });
 document.addEventListener("scroll", startMusicWithFade, { once: true });
+
+  console.log("💕 Valentine Setup Page Loaded Successfully!");
+})();
+
