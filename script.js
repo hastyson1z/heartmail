@@ -341,7 +341,7 @@ function showYesPopup() {
     // Hearts already showing as fallback
   };
 
-  img.src = "Happy Premier League GIF by Play Sports.gif";
+  img.src = encodeURI("Happy Premier League GIF by Play Sports.gif");
 
   // Add pulse animation for hearts
   const heartStyle = document.createElement("style");
@@ -1044,5 +1044,6 @@ window.currentShareLink = finalLink;
 document.addEventListener("click", startMusicWithFade, { once: true });
 document.addEventListener("touchstart", startMusicWithFade, { once: true });
 document.addEventListener("scroll", startMusicWithFade, { once: true });
+
 
 
