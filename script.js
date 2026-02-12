@@ -1,6 +1,7 @@
-// ===============================
-// CONFIGURATION
-// ===============================
+// --- PRELOAD ASSETS ---
+const preloadGif = new Image();
+preloadGif.src = "Happy Premier League GIF by Play Sports.gif";
+console.log("⏳ Preloading GIF in background...");
 // ===============================
 // CONFIGURATION (Fixed to allow updates)
 // ===============================
@@ -302,36 +303,32 @@ function showYesPopup() {
     background: linear-gradient(135deg, #000000 0%, #1a0a0a 100%);
     text-align: center;
   `;
-
-  popup.innerHTML = `
-    <div style="font-size:48px;color:#ff1744;margin-bottom:20px;animation:pulseText 1.5s infinite;">
-  ${herName} said YESSSS!! ❤️
-</div>
+popup.innerHTML = `
+    <div style="font-size:48px;color:#ff1744;margin-bottom:20px;">
+      ${herName} said YESSSS!! ❤️
     </div>
-    <div id="gifContainer" style="width:340px;max-width:90%;height:340px;display:flex;align-items:center;justify-content:center;margin:20px 0;">
-      <div style="font-size:100px;animation:pulseHeart 0.8s infinite;">💕</div>
-    </div>
-    <div style="font-size:30px;color:#ff4d6d;margin-top:10px;">
-      I love you so much ❤️
-    </div>
+    <div id="gifContainer" style="width:340px;max-width:90%;height:340px;display:flex;align-items:center;justify-content:center;">
+      </div>
+    <div style="font-size:30px;color:#ff4d6d;margin-top:10px;">I love you so much ❤️</div>
   `;
 
   document.body.appendChild(popup);
 
-  // Try to load the GIF
-  const img = new Image();
-  img.onload = function () {
-    console.log("✓ GIF loaded successfully!");
-    const container = document.getElementById("gifContainer");
-    container.innerHTML = "";
-    img.style.cssText = `
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255,105,180,0.6);
-    `;
-    container.appendChild(img);
+  const container = document.getElementById("gifContainer");
+  
+  // Apply styling to our preloaded GIF
+  preloadGif.style.cssText = `
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: 20px; box-shadow: 0 0 40px rgba(255,105,180,0.6);
+  `;
+
+  // Check if it's already loaded, otherwise wait for it
+  if (preloadGif.complete) {
+    container.appendChild(preloadGif);
+  } else {
+    preloadGif.onload = () => container.appendChild(preloadGif);
+  }
+}
   };
 
   img.onerror = function () {
@@ -1041,5 +1038,6 @@ document.head.appendChild(style);
 
   console.log("💕 Valentine Setup Page Loaded Successfully!");
 })();
+
 
 
