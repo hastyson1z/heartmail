@@ -347,7 +347,7 @@ function showYesPopup() {
 
   // Using the exact name you have on GitHub
   img.src = "Happy Premier League GIF by Play Sports.gif";
-}
+
   // Add pulse animation for hearts
   const heartStyle = document.createElement("style");
   heartStyle.innerHTML = `
@@ -910,7 +910,7 @@ window.currentShareLink = finalLink;
       alert("Something went wrong with the upload. Please try again!");
       generateButton.disabled = false;
       generateButton.innerHTML = "Generate Link";
-    } 
+                    } 
 }
     if (copyButton) {
       copyButton.addEventListener("click", () => {
@@ -1050,6 +1050,7 @@ window.currentShareLink = finalLink;
 document.addEventListener("click", startMusicWithFade, { once: true });
 document.addEventListener("touchstart", startMusicWithFade, { once: true });
 document.addEventListener("scroll", startMusicWithFade, { once: true });
+
 
 
 
