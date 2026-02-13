@@ -1,7 +1,6 @@
-// --- PRELOAD ASSETS ---
-const preloadGif = new Image();
-preloadGif.src = "Happy Premier League GIF by Play Sports.gif";
-console.log("⏳ Preloading GIF in background...");
+// ===============================
+// CONFIGURATION
+// ===============================
 // ===============================
 // CONFIGURATION (Fixed to allow updates)
 // ===============================
@@ -14,6 +13,9 @@ let galleryPhotos = [
   "photo4.jpg",
   "photo5.jpg",
 ];
+// PRELOAD GIF IMMEDIATELY FOR FASTER DISPLAY
+const preloadedGif = new Image();
+preloadedGif.src = "Happy Premier League GIF by Play Sports.gif";
 
 function loadFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -129,12 +131,10 @@ function preserveMusic() {
     document.body.appendChild(musicElement);
   }
 }
-// Change the interaction listeners to this:
-if (document.getElementById("envelope")) {
-    // Only listen for clicks to start music if the envelope is present
-    document.addEventListener("click", startMusicWithFade, { once: true });
-    document.addEventListener("touchstart", startMusicWithFade, { once: true });
-}
+
+// start on first interaction
+document.addEventListener("click", startMusicWithFade, { once: true });
+document.addEventListener("touchstart", startMusicWithFade, { once: true });
 
 // ===============================
 // TYPEWRITER
@@ -170,11 +170,12 @@ function typeWriter(element, text, speed = 35, callback = null) {
 
 if (envelope) {
   envelope.addEventListener("click", () => {
-    // START MUSIC HERE (Only when the envelope is clicked)
-    startMusicWithFade(); 
+    // 1. Start music immediately on click
+    startMusicWithFade();
 
     envelope.classList.add("open");
 
+    // Wait for flap to open
     setTimeout(() => {
       if (container) {
         container.classList.add("letter-out");
@@ -303,43 +304,57 @@ function showYesPopup() {
     background: linear-gradient(135deg, #000000 0%, #1a0a0a 100%);
     text-align: center;
   `;
-popup.innerHTML = `
-    <div style="font-size:48px;color:#ff1744;margin-bottom:20px;">
-      ${herName} said YESSSS!! ❤️
+
+  popup.innerHTML = `
+    <div style="font-size:48px;color:#ff1744;margin-bottom:20px;animation:pulseText 1.5s infinite;">
+  ${herName} said YESSSS!! ❤️</div>
+    
+    <div id="gifContainer" style="width:340px;max-width:90%;height:340px;display:flex;align-items:center;justify-content:center;margin:20px 0;">
+      <div style="font-size:100px;animation:pulseHeart 0.8s infinite;">💕</div>
     </div>
-    <div id="gifContainer" style="width:340px;max-width:90%;height:340px;display:flex;align-items:center;justify-content:center;">
-      </div>
-    <div style="font-size:30px;color:#ff4d6d;margin-top:10px;">I love you so much ❤️</div>
+    <div style="font-size:30px;color:#ff4d6d;margin-top:10px;">
+      I love you so much ❤️
+    </div>
   `;
 
   document.body.appendChild(popup);
 
-  const container = document.getElementById("gifContainer");
-  
-  // Apply styling to our preloaded GIF
-  preloadGif.style.cssText = `
-    width: 100%; height: 100%; object-fit: cover;
-    border-radius: 20px; box-shadow: 0 0 40px rgba(255,105,180,0.6);
-  `;
-
-  // Check if it's already loaded, otherwise wait for it
-  if (preloadGif.complete) {
-    container.appendChild(preloadGif);
+  // Use the preloaded GIF for instant display
+  if (preloadedGif.complete && preloadedGif.naturalWidth > 0) {
+    // GIF already loaded, display immediately
+    console.log("✓ GIF already preloaded!");
+    const container = document.getElementById("gifContainer");
+    container.innerHTML = "";
+    preloadedGif.style.cssText = `
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255,105,180,0.6);
+    `;
+    container.appendChild(preloadedGif);
   } else {
-    preloadGif.onload = () => container.appendChild(preloadGif);
+    // Still loading, wait for it
+    preloadedGif.onload = function () {
+      console.log("✓ GIF loaded!");
+      const container = document.getElementById("gifContainer");
+      if (container) {
+        container.innerHTML = "";
+        preloadedGif.style.cssText = `
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 20px;
+          box-shadow: 0 0 40px rgba(255,105,180,0.6);
+        `;
+        container.appendChild(preloadedGif);
+      }
+    };
+
+    preloadedGif.onerror = function () {
+      console.log("GIF not found, showing hearts");
+    };
   }
-}
-  };
-
-  img.onerror = function () {
-    console.error("✗ GIF failed to load");
-    console.log("Looking for: yes.gif");
-    console.log("In folder:", window.location.href);
-    console.log("Showing animated hearts instead...");
-    // Hearts already showing as fallback
-  };
-
-  img.src = "Happy Premier League GIF by Play Sports.gif";
 
   // Add pulse animation for hearts
   const heartStyle = document.createElement("style");
@@ -1038,6 +1053,7 @@ document.head.appendChild(style);
 
   console.log("💕 Valentine Setup Page Loaded Successfully!");
 })();
-
-
-
+// This catches the very first touch/click anywhere to start the music
+document.addEventListener("click", startMusicWithFade, { once: true });
+document.addEventListener("touchstart", startMusicWithFade, { once: true });
+document.addEventListener("scroll", startMusicWithFade, { once: true });
