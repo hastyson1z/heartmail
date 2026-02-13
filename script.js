@@ -39,25 +39,128 @@ loadFromUrl(); // Must run before elements are touched
 
 const heartfeltLetter = `My dearest ${herName},
 
-There's something about you that I can't fully explain… and maybe I never will.
+I never expected someone to become so important to me so quietly.
 
-You call yourself weird sometimes, but to me, that's one of the most perfect things about you. Every little thing that makes you different is exactly what makes you unforgettable.
+It wasn’t one big moment.
+It was a thousand small ones.
 
-You don't even realize how special you are. The way you smile, the way you exist, the way you make my world feel lighter just by being in it… it's magic.
+The way you exist without trying.
+The way your presence alone can calm everything inside me.
+The way even silence with you feels full, not empty.
 
-You're perfect, even in the moments you doubt yourself. Especially in those moments.
+You’ve changed something in me without even realizing it.
 
-You've become someone my heart feels safe with. Someone I think about without trying. Someone I never want to lose.
+You’ve made me look forward to ordinary days,
+because somehow, they don’t feel ordinary when you’re in them.
 
-I don't need perfect.
+You’ve become part of my thoughts in the most natural way.
+Not forced.
+Not planned.
+Just real.
 
-I just need you.
+There’s a comfort in knowing you exist in this world.
+A comfort in knowing I get to know you.
 
-Even your weirdest moments are my favorite.
+And no matter where life takes us,
+you will always be someone my heart chose gently, and sincerely.
 
-And if you'll let me, I want to spend my life reminding you how loved you truly are.
 
 Forever yours ❤️`;
+
+const heartfeltLetter2 = `My darling ${herName},
+
+I don’t think you truly understand how much you mean to me.
+
+You walked into my life so naturally, but somehow you became my favorite part of it.
+
+Your smile feels like home.
+Your laugh feels like peace.
+Your presence feels like everything.
+
+Even on days when you doubt yourself,
+I see nothing but someone extraordinary.
+
+If I could choose anyone in the world,
+I would still choose you.
+
+Always and forever ❤️`;
+
+const heartfeltLetter3 = `Sweet ${herName},
+
+Sometimes I sit and think about how lucky I am to know you.
+
+You are soft yet strong.
+Gentle yet powerful.
+Quietly incredible.
+
+The world may not always remind you how amazing you are,
+but I will.
+
+Every single day if I have to.
+
+You are not just special.
+You are rare.
+
+And I treasure you more than you know ❤️`;
+
+const heartfeltLetter4 = `My love ${herName},
+
+Loving you feels effortless.
+
+You make my heart calm in ways I can’t explain.
+You make ordinary days feel extraordinary.
+
+Even your silence feels comforting.
+
+You don’t have to try to impress me.
+You already do, just by being you.
+
+If forever exists,
+I hope it has you in it.
+
+Yours completely ❤️`;
+
+const heartfeltLetter5 = `Mi Amor ${herName},
+
+You are the kind of person people search a lifetime for.
+
+Your heart.
+Your mind.
+Your spirit.
+
+Everything about you feels intentional,
+like the universe designed you carefully.
+
+And somehow,
+I get to love you.
+
+That is something I will never take for granted.
+
+Forever grateful for you ❤️`;
+
+const allLetters = [
+  heartfeltLetter,
+  heartfeltLetter2,
+  heartfeltLetter3,
+  heartfeltLetter4,
+  heartfeltLetter5,
+];
+
+function getRandomLetter() {
+  let lastIndex = localStorage.getItem("lastLetterIndex");
+
+  lastIndex = lastIndex !== null ? parseInt(lastIndex) : -1;
+
+  let newIndex;
+
+  do {
+    newIndex = Math.floor(Math.random() * allLetters.length);
+  } while (newIndex === lastIndex);
+
+  localStorage.setItem("lastLetterIndex", newIndex);
+
+  return allLetters[newIndex];
+}
 
 const surrenderThreshold = 8;
 
@@ -574,7 +677,9 @@ function showHeartLetter() {
 
   document.body.appendChild(box);
 
-  typeWriter(box, heartfeltLetter);
+  const selectedLetter = getRandomLetter();
+
+  typeWriter(box, selectedLetter);
 }
 
 // ===============================
@@ -1053,7 +1158,3 @@ document.head.appendChild(style);
 
   console.log("💕 Valentine Setup Page Loaded Successfully!");
 })();
-// This catches the very first touch/click anywhere to start the music
-document.addEventListener("click", startMusicWithFade, { once: true });
-document.addEventListener("touchstart", startMusicWithFade, { once: true });
-document.addEventListener("scroll", startMusicWithFade, { once: true });
